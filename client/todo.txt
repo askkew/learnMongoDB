@@ -1,0 +1,4 @@
+Get three text fields to input data into mongodb
+
+map each object into a card on home screen
+
