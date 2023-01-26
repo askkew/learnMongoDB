@@ -12,7 +12,7 @@ const channelSchema = new mongoose.Schema({
         trim: true,
     },
     quantity: {
-        type: Integer,
+        type: String,
         required: true,
         trim: true,
     },
