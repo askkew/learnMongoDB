@@ -26,15 +26,11 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
 });
 
-app.get("/message", (req, res) => {
-    res.json({ message: "Hello from server" });
-});
-
 app.get("/insert", (req, res) => {
     var detailModel = new DetailModel()
-    detailModel.name = "Name test" //passed value for name
-    detailModel.description = "type test" //passed value for description
-    detailModel.quantity = "10" //passed value for quantity
+    detailModel.name = "Luke2" //passed value for name
+    detailModel.description = "this is lukes2s description" //passed value for description
+    detailModel.quantity = "4325" //passed value for quantity
 
     detailModel.save((err,data) => {
         if (err) {

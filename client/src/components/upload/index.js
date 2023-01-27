@@ -107,6 +107,7 @@ export const Upload = () => {
                         <h5>Name = {product.name}</h5>
                         <h5>Description = {product.description}</h5>
                         <h5>Quantity = {product.quantity}</h5>
+                        {/* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"></img> */}
                       </Item>
                     </Grid>
                   ))
