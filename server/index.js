@@ -61,9 +61,17 @@ app.get("/update", (req, res) => {
     })
 })
 
-// app.post("/endpoint", (req, res) => {
-
-// })
+app.post('/endpoint', (req, res) => {
+    DetailModel.findByIdAndDelete(req.body.ID, (err, data) => {
+        if(err) {
+            return res.status(500).send(err)
+        }else{
+            return res.status(200).send(data)
+        }
+    })
+    // console.log(req.body.ID);
+    // res.json({ message: 'Data received' });
+});
 
 app.get("/delete", (req, res) => {
     DetailModel.findByIdAndDelete(req.query.id, (err, data) => {

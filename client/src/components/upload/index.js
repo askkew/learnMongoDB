@@ -50,12 +50,13 @@ export const Upload = () => {
 
   const [products, setProducts] = useState("");
 
+  const fetchData = async () => {
+    const data = await axios.get("http://localhost:5000/read")
+    setProducts(data);
+    console.log(data);
+  }
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await axios.get("http://localhost:5000/read")
-      setProducts(data);
-      console.log(data);
-    }
     fetchData()
   }, [])
 
@@ -73,11 +74,14 @@ export const Upload = () => {
     console.log(frontData);
   };
 
-  const handleUpdate = (event) => {
-    event.preventDefault();
-    const objectID = event.data._id
-    axios.delete('http://localhost:5000/endpoint', {objectID})
-      .then(response => console.log(response.data))
+  const handleDelete = (ID) => {
+    const objectID = {ID: ID}
+    axios.post('http://localhost:5000/endpoint', objectID)
+      .then(response => {
+        if (response.statusText === 'OK'){
+          fetchData();
+        }
+      })
       .catch(error => console.log(error));
   }
 
@@ -138,9 +142,9 @@ export const Upload = () => {
                     <Grid item xs={2} sm={4} md={4}>
                       <Item>
                         <UpdateData
-                        component="form"
-                        onSubmit={handleUpdate}
-                        noValidate
+                        // component="form"
+                        // onSubmit={handleDelete}
+                        // noValidate
                         >
                           <Datafield>Name = {product.name}</Datafield>
                           <TextField
@@ -174,9 +178,15 @@ export const Upload = () => {
                           />
                           <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Update</UpdateItem>
                         </UpdateData>
-                        <ButtonBox>
-                          <DeleteButton color="primary" variant="contained" startIcon={<DeleteIcon />}>Delete</DeleteButton>
-                        </ButtonBox>
+                        <DeleteButton
+                        onClick = {(() => handleDelete(product._id))} 
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        startIcon={<DeleteIcon />}
+                        >
+                        Delete
+                        </DeleteButton>
                       </Item>
                     </Grid>
                   ))
