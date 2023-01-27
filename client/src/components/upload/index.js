@@ -69,7 +69,11 @@ export const Upload = () => {
       quantity: DBinfo.get("quantity")
     }
     axios.post('http://localhost:5000/insert', frontData)
-      .then(response => console.log(response.data))
+      .then(response => {
+        if (response.statusText === 'OK'){
+          fetchData();
+        }
+      })
       .catch(error => console.log(error));
     console.log(frontData);
   };
