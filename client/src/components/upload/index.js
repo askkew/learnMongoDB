@@ -6,9 +6,16 @@ import axios from 'axios';
 const Enterdata = styled(Box)({
     display: 'flex',
     justifyContent: 'center',
-    flexDirection: 'column',
+    flexDirection: 'row',
 })
 
+const Item = styled(Paper)({
+  backgroundColor: '#1A2027',
+  padding: 2,
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'center',
+});
 
 export const Upload = () => {
 
@@ -35,6 +42,17 @@ export const Upload = () => {
     });
   };
 
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(2),
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  // }));
+
+
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
         <Card sx={{width: 700, height: 900, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
@@ -45,7 +63,7 @@ export const Upload = () => {
               noValidate
               >
                 <TextField
-                  sx={{paddingBottom: 1}}
+                  sx={{margin: 1}}
                   required
                   fullWidth
                   id="name"
@@ -55,7 +73,7 @@ export const Upload = () => {
                   autoFocus
                 />
                 <TextField
-                  sx={{paddingBottom: 1}}
+                  sx={{margin: 1}}
                   required
                   fullWidth
                   name="description"
@@ -65,7 +83,7 @@ export const Upload = () => {
                   autoComplete="description"
                 />
                 <TextField
-                  sx={{paddingBottom: 1}}
+                  sx={{margin: 1}}
                   required
                   fullWidth
                   name="quantity"
@@ -74,19 +92,27 @@ export const Upload = () => {
                   id="quantity"
                   autoComplete="quantity"
                 />
-                <Button type="submit" variant="contained">Submit</Button>
+                <Button color="secondary" type="submit" variant="contained">Submit</Button>
                 {/* <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Name" variant="outlined" value={data.name} />
                 <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Description" variant="outlined" value={data.description}/>
                 <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Quantity" variant="outlined" value={data.quantity}/> */}
               </Enterdata>
               <Divider sx={{paddingBottom: 2}} />
-              <Typography variant="outlined">
+              <Box sx={{ flexGrow: 1, paddingTop: 2}}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {
                   products && products?.data.map((product) => (
-                    <h1>{product.name}</h1>
+                    <Grid item xs={2} sm={4} md={4}>
+                      <Item>
+                        <h5>Name = {product.name}</h5>
+                        <h5>Type = {product.type}</h5>
+                      </Item>
+                    </Grid>
                   ))
                 }
-              </Typography>
+                </Grid>
+              </Box>
+
             </CardContent>
         </Card>
       </Grid>
