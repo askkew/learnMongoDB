@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const channelSchema = new mongoose.Schema({
+const detailSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -18,6 +18,6 @@ const channelSchema = new mongoose.Schema({
     },
 });
 
-const ChannelModel = mongoose.model('Channel', channelSchema)
+const DetailModel = mongoose.model('Detail', detailSchema)
 
-module.exports = ChannelModel
+module.exports = DetailModel

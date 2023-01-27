@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
-const ChannelModel = require("./models/channel.js");
-const channelModel = require("./models/channel.js");
+const DetailModel = require("./models/details.js");
+const detailModel = require("./models/details.js");
 
 const app = express();
 
@@ -31,12 +31,12 @@ app.get("/message", (req, res) => {
 });
 
 app.get("/insert", (req, res) => {
-    var channelModel = new ChannelModel()
-    channelModel.name = "Name test" //passed value for name
-    channelModel.description = "type test" //passed value for description
-    channelModel.quantity = "10" //passed value for quantity
+    var detailModel = new DetailModel()
+    detailModel.name = "Name test" //passed value for name
+    detailModel.description = "type test" //passed value for description
+    detailModel.quantity = "10" //passed value for quantity
 
-    channelModel.save((err,data) => {
+    detailModel.save((err,data) => {
         if (err) {
             console.log(err)
         }else {
@@ -46,7 +46,7 @@ app.get("/insert", (req, res) => {
 })
 
 app.get('/read', (req, res) => {
-    ChannelModel.find((err, data) => {
+    DetailModel.find((err, data) => {
         if(err) {
             return res.status(500).send(err)
         }else{
@@ -56,7 +56,7 @@ app.get('/read', (req, res) => {
 })
 
 app.get("/update", (req, res) => {
-    ChannelModel.findByIdAndUpdate(req.query.id, {name: req.query.name}, (err, data) => {
+    DetailModel.findByIdAndUpdate(req.query.id, {name: req.query.name}, (err, data) => {
         if(err) {
             return res.status(500).send(err)
         }else{
@@ -66,7 +66,7 @@ app.get("/update", (req, res) => {
 })
 
 app.get("/delete", (req, res) => {
-    ChannelModel.findByIdAndDelete(req.query.id, (err, data) => {
+    DetailModel.findByIdAndDelete(req.query.id, (err, data) => {
         if(err) {
             return res.status(500).send(err)
         }else{

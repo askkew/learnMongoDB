@@ -105,7 +105,8 @@ export const Upload = () => {
                     <Grid item xs={2} sm={4} md={4}>
                       <Item>
                         <h5>Name = {product.name}</h5>
-                        <h5>Type = {product.type}</h5>
+                        <h5>Description = {product.description}</h5>
+                        <h5>Quantity = {product.quantity}</h5>
                       </Item>
                     </Grid>
                   ))
