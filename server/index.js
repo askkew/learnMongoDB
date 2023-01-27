@@ -1,11 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const ChannelModel = require("./models/channel.js");
 const channelModel = require("./models/channel.js");
 
 const app = express();
 
 const PORT = 5000
+
+app.use(cors());
+app.use(express.json());
 
 const uri = "mongodb+srv://admin:bnr341999@cluster0.mvgqlfd.mongodb.net/practice?retryWrites=true&w=majority"
 
@@ -20,6 +24,10 @@ mongoose
 
 app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
+});
+
+app.get("/message", (req, res) => {
+    res.json({ message: "Hello from server" });
 });
 
 app.get("/insert", (req, res) => {

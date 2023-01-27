@@ -1,27 +1,98 @@
 import React, { useEffect, useState} from 'react'
-import { styled, Card, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { styled, Card, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import axios from 'axios';
 
-const Enterdata = styled('div')({
+
+const Enterdata = styled(Box)({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
 })
-// function createData(name, description, quantity) {
-//   return { name, description, quantity };
-// }
 
-// const rows = [
-//   createData('Luke', 'Overbey', 6.0),
-//   createData('Calvin', 'Chui', 9.0),
-//   createData('Lukey', 'Ryktarsyk', 16.0),
-//   createData('Kenny', 'Phan', 3.7),
-//   createData('Danny', 'Nguyen', 16.0),
-// ];
 
 export const Upload = () => {
 
   const [item, setItem] = useState([]);
-  const [backendData, setBackendData] = useState([{}])
+
+  const [products, setProducts] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await axios.get("http://localhost:5000/read")
+      setProducts(data);
+      console.log(data);
+    }
+    fetchData()
+  }, [])
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const DBinfo = new FormData(event.currentTarget);
+    console.log({
+      name: DBinfo.get("name"),
+      description: DBinfo.get("description"),
+      quantity: DBinfo.get("quantity")
+    });
+  };
+
+  return (
+    <Grid container justifyContent="center" sx={{paddingTop: 2}}>
+        <Card sx={{width: 700, height: 900, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
+            <CardContent>
+              <Enterdata
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              >
+                <TextField
+                  sx={{paddingBottom: 1}}
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                />
+                <TextField
+                  sx={{paddingBottom: 1}}
+                  required
+                  fullWidth
+                  name="description"
+                  label="Description"
+                  type="description"
+                  id="description"
+                  autoComplete="description"
+                />
+                <TextField
+                  sx={{paddingBottom: 1}}
+                  required
+                  fullWidth
+                  name="quantity"
+                  label="Quantity"
+                  type="number"
+                  id="quantity"
+                  autoComplete="quantity"
+                />
+                <Button type="submit" variant="contained">Submit</Button>
+                {/* <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Name" variant="outlined" value={data.name} />
+                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Description" variant="outlined" value={data.description}/>
+                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Quantity" variant="outlined" value={data.quantity}/> */}
+              </Enterdata>
+              <Divider sx={{paddingBottom: 2}} />
+              <Typography variant="outlined">
+                {
+                  products && products?.data.map((product) => (
+                    <h1>{product.name}</h1>
+                  ))
+                }
+              </Typography>
+            </CardContent>
+        </Card>
+      </Grid>
+  )
+}
+
   
   // useEffect(() => {
   //   axios.get('/items')
@@ -38,47 +109,6 @@ export const Upload = () => {
   // }, [])
 
   // console.log(backendData)
-
-  return (
-    <Grid container justifyContent="center" sx={{paddingTop: 2}}>
-        <Card sx={{width: 700, height: 900, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
-            <CardContent>
-              <Enterdata>
-                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Name" variant="outlined" />
-                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Description" variant="outlined" />
-                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Quantity" variant="outlined" />
-                <Button variant="contained">Submit</Button>
-              </Enterdata>
-              <Divider sx={{paddingBottom: 2}} />
-              <Typography variant="outlined">
-                <ul>
-                  {/* {backendData.users?.map(users => (
-                    <li>{backendData.users}</li>
-                  )
-                  )} */}
-                </ul>
-                {/* {backendData.users}
-                {backendData.map((users) => {
-                  return (
-                    <p>{backendData.users}</p>
-                  )
-                })} */}
-                {/* {(typeof backendData === 'undefined') ? (
-                  <p>Loading...</p>
-                ) : (
-                  
-                  backendData.users.map((user, i) => (
-                    <p key={i}>{user}</p>
-                  ))
-                  
-                )} */}
-              </Typography>
-            </CardContent>
-        </Card>
-      </Grid>
-  )
-}
-
 
 
 {/* <TableContainer component={Paper}>
