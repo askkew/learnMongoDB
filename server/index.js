@@ -26,20 +26,20 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
 });
 
-app.get("/insert", (req, res) => {
-    var detailModel = new DetailModel()
-    detailModel.name = "Luke2" //passed value for name
-    detailModel.description = "this is lukes2s description" //passed value for description
-    detailModel.quantity = "4325" //passed value for quantity
+app.post('/insert', (req, res) => {
+    var detailModel = new DetailModel()         //create new model for new data entry
+    detailModel.name = req.body.name                        //assign name to detailmodel from data entry
+    detailModel.description = req.body.description
+    detailModel.quantity = req.body.quantity
 
-    detailModel.save((err,data) => {
+    detailModel.save((err,data) => {                    //save new model to database
         if (err) {
             console.log(err)
         }else {
             res.status(200).send({"MSG":"Inserted to DB"})
         }
     })
-})
+});
 
 app.get('/read', (req, res) => {
     DetailModel.find((err, data) => {
@@ -60,6 +60,10 @@ app.get("/update", (req, res) => {
         }
     })
 })
+
+// app.post("/endpoint", (req, res) => {
+
+// })
 
 app.get("/delete", (req, res) => {
     DetailModel.findByIdAndDelete(req.query.id, (err, data) => {

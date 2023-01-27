@@ -1,5 +1,7 @@
 import React, { useEffect, useState} from 'react'
 import { styled, Card, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
 
 
@@ -9,12 +11,37 @@ const Enterdata = styled(Box)({
     flexDirection: 'row',
 })
 
+const UpdateData = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column',
+})
+
+const Datafield = styled(Typography)({
+  margin: 4
+})
+
+const DeleteButton = styled(Button)({
+  width: "100px",
+})
+
+const UpdateItem = styled(Button)({
+  width: "100px",
+})
+
+const ButtonBox = styled(Box)({
+  display: 'flex',
+  justifyContent: 'space-around',
+  flexDirection: 'row',
+  
+})
+
 const Item = styled(Paper)({
   backgroundColor: '#1A2027',
   padding: 2,
   display: 'flex',
   flexDirection: 'column',
-  textAlign: 'center',
+  textAlign: 'left',
 });
 
 export const Upload = () => {
@@ -35,27 +62,36 @@ export const Upload = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const DBinfo = new FormData(event.currentTarget);
-    console.log({
+    const frontData = {
       name: DBinfo.get("name"),
       description: DBinfo.get("description"),
       quantity: DBinfo.get("quantity")
-    });
+    }
+    axios.post('http://localhost:5000/insert', frontData)
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error));
+    console.log(frontData);
   };
 
-  // const Item = styled(Paper)(({ theme }) => ({
-  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  //   ...theme.typography.body2,
-  //   padding: theme.spacing(2),
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   textAlign: 'center',
-  //   color: theme.palette.text.secondary,
-  // }));
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    const objectID = event.data._id
+    axios.delete('http://localhost:5000/endpoint', {objectID})
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error));
+  }
 
+  // const handleDelete = (event) => {
+  //   event.preventDefault();
+  //   const objectID = event.data._id
+  //   axios.delete('http://localhost:5000/delete', {objectID})
+  //     .then(response => console.log(response.data))
+  //     .catch(error => console.log(error));
+  // }
 
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
-        <Card sx={{width: 700, height: 900, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
+        <Card sx={{width: 700, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
             <CardContent>
               <Enterdata
               component="form"
@@ -93,9 +129,6 @@ export const Upload = () => {
                   autoComplete="quantity"
                 />
                 <Button color="secondary" type="submit" variant="contained">Submit</Button>
-                {/* <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Name" variant="outlined" value={data.name} />
-                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Description" variant="outlined" value={data.description}/>
-                <TextField sx={{paddingBottom: 1}} id="outlined-basic" label="Quantity" variant="outlined" value={data.quantity}/> */}
               </Enterdata>
               <Divider sx={{paddingBottom: 2}} />
               <Box sx={{ flexGrow: 1, paddingTop: 2}}>
@@ -104,10 +137,46 @@ export const Upload = () => {
                   products && products?.data.map((product) => (
                     <Grid item xs={2} sm={4} md={4}>
                       <Item>
-                        <h5>Name = {product.name}</h5>
-                        <h5>Description = {product.description}</h5>
-                        <h5>Quantity = {product.quantity}</h5>
-                        {/* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"></img> */}
+                        <UpdateData
+                        component="form"
+                        onSubmit={handleUpdate}
+                        noValidate
+                        >
+                          <Datafield>Name = {product.name}</Datafield>
+                          <TextField
+                            sx={{margin: 1}}
+                            required
+                            name="test"
+                            label="test"
+                            type="test"
+                            id="test"
+                            autoComplete="test"
+                          />
+                          <Datafield>Des. = {product.description}</Datafield>
+                          <TextField
+                            sx={{margin: 1}}
+                            required
+                            name="test"
+                            label="test"
+                            type="test"
+                            id="test"
+                            autoComplete="test"
+                          />
+                          <Datafield>Quantity = {product.quantity}</Datafield>
+                          <TextField
+                            sx={{margin: 1}}
+                            required
+                            name="test"
+                            label="test"
+                            type="test"
+                            id="test"
+                            autoComplete="test"
+                          />
+                          <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Update</UpdateItem>
+                        </UpdateData>
+                        <ButtonBox>
+                          <DeleteButton color="primary" variant="contained" startIcon={<DeleteIcon />}>Delete</DeleteButton>
+                        </ButtonBox>
                       </Item>
                     </Grid>
                   ))
@@ -120,47 +189,3 @@ export const Upload = () => {
       </Grid>
   )
 }
-
-  
-  // useEffect(() => {
-  //   axios.get('/items')
-  // }
-
-  // useEffect(() => {
-  //   fetch("/api/").then(
-  //     response => response.json()
-  //   ).then(
-  //     data => {
-  //       setBackendData(data)
-  //     }
-  //   )
-  // }, [])
-
-  // console.log(backendData)
-
-
-{/* <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell align="right">Description</TableCell>
-                      <TableCell align="right">Quantity</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="right">{row.description}</TableCell>
-                        <TableCell align="right">{row.quantity}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer> */}
