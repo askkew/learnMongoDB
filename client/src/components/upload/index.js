@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import { styled, Card, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { styled, Card, Dialog, DialogTitle, DialogActions, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
@@ -18,7 +18,6 @@ const UpdateData = styled(Box)({
 })
 
 const Datafield = styled(Typography)({
-  margin: 4
 })
 
 const DeleteButton = styled(Button)({
@@ -36,9 +35,16 @@ const ButtonBox = styled(Box)({
   
 })
 
+const Datalabel = styled(Typography)({
+  fontSize: 13,
+  color: "grey",
+})
+
 const Item = styled(Paper)({
   backgroundColor: '#1A2027',
-  padding: 2,
+  padding: 15,
+  width: 315,
+  height: 510,
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'left',
@@ -46,8 +52,9 @@ const Item = styled(Paper)({
 
 export const Upload = () => {
 
+  const [showTextFields, setShowTextFields] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [item, setItem] = useState([]);
-
   const [products, setProducts] = useState("");
 
   const fetchData = async () => {
@@ -109,32 +116,15 @@ export const Upload = () => {
             console.error(error);
         });
   }
-    // event.preventDefault();
-    // const formData = new FormData(event.target);
-    // const updateFrontData = {
-    //   name: formData.get("nameupdated"),
-    //   description: formData.get("descriptionupdated"),
-    //   quantity: formData.get("quantityupdated")
-    // }
-    // // const id = data.id;
-    // axios.put(`http://localhost:5000/endpoint`, updateFrontData)
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-  // const handleDelete = (event) => {
-  //   event.preventDefault();
-  //   const objectID = event.data._id
-  //   axios.delete('http://localhost:5000/delete', {objectID})
-  //     .then(response => console.log(response.data))
-  //     .catch(error => console.log(error));
-  // }
+
+  const handleShowTextFields = () => {
+    setShowTextFields(!showTextFields);
+  }
+
 
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
-        <Card sx={{width: 700, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
+        <Card sx={{width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
             <CardContent>
               <Enterdata
               component="form"
@@ -180,43 +170,89 @@ export const Upload = () => {
                   products && products?.data.map((product) => (
                     <Grid item xs={2} sm={4} md={4}>
                       <Item>
-                        <UpdateData
+                        <Datalabel>Name:</Datalabel>
+                        <Datafield>{product.name}</Datafield>
+                        <Datalabel>Description:</Datalabel>
+                        <Datafield>{product.description}</Datafield>
+                        <Datalabel>Quantity:</Datalabel>
+                        <Datafield>{product.quantity}</Datafield>
+                        <UpdateItem color="secondary" variant="contained" onClick={handleShowTextFields}>Update</UpdateItem>
+                          { showTextFields && (
+                              <UpdateData
+                                  component="form"
+                                  onSubmit={(e)=> handleUpdate(e, product._id)}
+                                  noValidate
+                              >
+                                  <TextField
+                                      sx={{margin: 1}}
+                                      required
+                                      name="nameupdated"
+                                      label="Name"
+                                      type="nameupdated"
+                                      id="nameupdated"
+                                      autoComplete="nameupdated"
+                                  />
+                                  <TextField
+                                      sx={{margin: 1}}
+                                      required
+                                      name="descriptionupdated"
+                                      label="Description"
+                                      type="descriptionupdated"
+                                      id="descriptionupdated"
+                                      autoComplete="descriptionupdated"
+                                  />
+                                  <TextField
+                                      sx={{margin: 1}}
+                                      required
+                                      name="quantityupdated"
+                                      label="Quantity"
+                                      type="quantityupdated"
+                                      id="quantityupdated"
+                                      autoComplete="quantityupdated"
+                                  />
+                                  <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Submit</UpdateItem>
+                              </UpdateData>
+                          )}
+                        {/* <UpdateData
                         component="form"
                         onSubmit={(e)=> handleUpdate(e, product._id)}
                         noValidate
                         >
-                          <Datafield>Name = {product.name}</Datafield>
+                          <Datalabel>Name:</Datalabel>
+                          <Datafield>{product.name}</Datafield>
                           <TextField
                               sx={{margin: 1}}
                               required
                               name="nameupdated"
-                              label="nameupdated"
+                              label="Name"
                               type="nameupdated"
                               id="nameupdated"
                               autoComplete="nameupdated"
                           />
-                          <Datafield>Des. = {product.description}</Datafield>
+                          <Datalabel>Description:</Datalabel>
+                          <Datafield>{product.description}</Datafield>
                           <TextField
                               sx={{margin: 1}}
                               required
                               name="descriptionupdated"
-                              label="descriptionupdated"
+                              label="Description"
                               type="descriptionupdated"
                               id="descriptionupdated"
                               autoComplete="descriptionupdated"
                           />
-                          <Datafield>Quantity = {product.quantity}</Datafield>
+                          <Datalabel>Quantity:</Datalabel>
+                          <Datafield>{product.quantity}</Datafield>
                           <TextField
                               sx={{margin: 1}}
                               required
                               name="quantityupdated"
-                              label="quantityupdated"
+                              label="Quantity"
                               type="quantityupdated"
                               id="quantityupdated"
                               autoComplete="quantityupdated"
                           />
                           <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Update</UpdateItem>
-                        </UpdateData>
+                        </UpdateData> */}
                         <DeleteButton
                         onClick = {(() => handleDelete(product._id))} 
                         color="primary"
@@ -238,3 +274,6 @@ export const Upload = () => {
       </Grid>
   )
 }
+
+
+
