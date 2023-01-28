@@ -80,7 +80,7 @@ export const Upload = () => {
 
   const handleDelete = (ID) => {
     const objectID = {ID: ID}
-    axios.post('http://localhost:5000/endpoint', objectID)
+    axios.post('http://localhost:5000/delete', objectID)
       .then(response => {
         if (response.statusText === 'OK'){
           fetchData();
@@ -89,6 +89,41 @@ export const Upload = () => {
       .catch(error => console.log(error));
   }
 
+  const handleUpdate = (event, _id) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const updateFrontData = {
+        $set: {
+            name: formData.get("nameupdated"),
+            description: formData.get("descriptionupdated"),
+            quantity: formData.get("quantityupdated")
+        }
+    }
+    axios.put(`http://localhost:5000/update?id=${_id}`, updateFrontData)
+        .then(response => {
+          if (response.statusText === 'OK'){
+            fetchData();
+          }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+  }
+    // event.preventDefault();
+    // const formData = new FormData(event.target);
+    // const updateFrontData = {
+    //   name: formData.get("nameupdated"),
+    //   description: formData.get("descriptionupdated"),
+    //   quantity: formData.get("quantityupdated")
+    // }
+    // // const id = data.id;
+    // axios.put(`http://localhost:5000/endpoint`, updateFrontData)
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
   // const handleDelete = (event) => {
   //   event.preventDefault();
   //   const objectID = event.data._id
@@ -146,39 +181,39 @@ export const Upload = () => {
                     <Grid item xs={2} sm={4} md={4}>
                       <Item>
                         <UpdateData
-                        // component="form"
-                        // onSubmit={handleDelete}
-                        // noValidate
+                        component="form"
+                        onSubmit={(e)=> handleUpdate(e, product._id)}
+                        noValidate
                         >
                           <Datafield>Name = {product.name}</Datafield>
                           <TextField
-                            sx={{margin: 1}}
-                            required
-                            name="test"
-                            label="test"
-                            type="test"
-                            id="test"
-                            autoComplete="test"
+                              sx={{margin: 1}}
+                              required
+                              name="nameupdated"
+                              label="nameupdated"
+                              type="nameupdated"
+                              id="nameupdated"
+                              autoComplete="nameupdated"
                           />
                           <Datafield>Des. = {product.description}</Datafield>
                           <TextField
-                            sx={{margin: 1}}
-                            required
-                            name="test"
-                            label="test"
-                            type="test"
-                            id="test"
-                            autoComplete="test"
+                              sx={{margin: 1}}
+                              required
+                              name="descriptionupdated"
+                              label="descriptionupdated"
+                              type="descriptionupdated"
+                              id="descriptionupdated"
+                              autoComplete="descriptionupdated"
                           />
                           <Datafield>Quantity = {product.quantity}</Datafield>
                           <TextField
-                            sx={{margin: 1}}
-                            required
-                            name="test"
-                            label="test"
-                            type="test"
-                            id="test"
-                            autoComplete="test"
+                              sx={{margin: 1}}
+                              required
+                              name="quantityupdated"
+                              label="quantityupdated"
+                              type="quantityupdated"
+                              id="quantityupdated"
+                              autoComplete="quantityupdated"
                           />
                           <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Update</UpdateItem>
                         </UpdateData>

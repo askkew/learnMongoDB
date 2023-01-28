@@ -51,8 +51,8 @@ app.get('/read', (req, res) => {
     })
 })
 
-app.get("/update", (req, res) => {
-    DetailModel.findByIdAndUpdate(req.query.id, {name: req.query.name}, (err, data) => {
+app.get("/updateold", (req, res) => {
+    DetailModel.findByIdAndUpdate(req.query._id, {name: req.query.name}, (err, data) => {
         if(err) {
             return res.status(500).send(err)
         }else{
@@ -61,7 +61,7 @@ app.get("/update", (req, res) => {
     })
 })
 
-app.post('/endpoint', (req, res) => {
+app.post('/delete', (req, res) => {
     DetailModel.findByIdAndDelete(req.body.ID, (err, data) => {
         if(err) {
             return res.status(500).send(err)
@@ -73,7 +73,17 @@ app.post('/endpoint', (req, res) => {
     // res.json({ message: 'Data received' });
 });
 
-app.get("/delete", (req, res) => {
+app.put("/update", (req, res) => {
+    DetailModel.findOneAndUpdate({ _id: req.query.id }, req.body, {new: true}, (err, data) => {
+        if(err) {
+            return res.status(500).send(err)
+        }else{
+            return res.status(200).send(data)
+        }
+    })
+})
+
+app.get("/deletetest", (req, res) => {
     DetailModel.findByIdAndDelete(req.query.id, (err, data) => {
         if(err) {
             return res.status(500).send(err)
