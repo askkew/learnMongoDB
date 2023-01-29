@@ -6,9 +6,9 @@ import axios from 'axios';
 
 
 const Enterdata = styled(Box)({
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row',
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'row',
 })
 
 const UpdateData = styled(Box)({
@@ -26,13 +26,6 @@ const DeleteButton = styled(Button)({
 
 const UpdateItem = styled(Button)({
   width: "100px",
-})
-
-const ButtonBox = styled(Box)({
-  display: 'flex',
-  justifyContent: 'space-around',
-  flexDirection: 'row',
-  
 })
 
 const Datalabel = styled(Typography)({
@@ -213,46 +206,6 @@ export const Upload = () => {
                                   <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Submit</UpdateItem>
                               </UpdateData>
                           )}
-                        {/* <UpdateData
-                        component="form"
-                        onSubmit={(e)=> handleUpdate(e, product._id)}
-                        noValidate
-                        >
-                          <Datalabel>Name:</Datalabel>
-                          <Datafield>{product.name}</Datafield>
-                          <TextField
-                              sx={{margin: 1}}
-                              required
-                              name="nameupdated"
-                              label="Name"
-                              type="nameupdated"
-                              id="nameupdated"
-                              autoComplete="nameupdated"
-                          />
-                          <Datalabel>Description:</Datalabel>
-                          <Datafield>{product.description}</Datafield>
-                          <TextField
-                              sx={{margin: 1}}
-                              required
-                              name="descriptionupdated"
-                              label="Description"
-                              type="descriptionupdated"
-                              id="descriptionupdated"
-                              autoComplete="descriptionupdated"
-                          />
-                          <Datalabel>Quantity:</Datalabel>
-                          <Datafield>{product.quantity}</Datafield>
-                          <TextField
-                              sx={{margin: 1}}
-                              required
-                              name="quantityupdated"
-                              label="Quantity"
-                              type="quantityupdated"
-                              id="quantityupdated"
-                              autoComplete="quantityupdated"
-                          />
-                          <UpdateItem color="secondary" variant="contained" type="submit" startIcon={<UpgradeIcon />}>Update</UpdateItem>
-                        </UpdateData> */}
                         <DeleteButton
                         onClick = {(() => handleDelete(product._id))} 
                         color="primary"
