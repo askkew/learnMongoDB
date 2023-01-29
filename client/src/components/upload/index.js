@@ -5,7 +5,6 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
 
-
 const Enterdata = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
@@ -60,6 +59,7 @@ export const Upload = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [item, setItem] = useState([]);
   const [products, setProducts] = useState("");
+  const [file, setFile] = useState(null);
 
   const fetchData = async () => {
     const data = await axios.get("http://localhost:5000/read")
@@ -125,6 +125,14 @@ export const Upload = () => {
     setShowTextFields(!showTextFields);
   }
 
+  const handleChange = (event) => {
+    if (event.target.files[0].type.startsWith('image/')) {
+      setFile(event.target.files[0]);
+    } else {
+      alert('Invalid file type. Please select a photo.');
+    }
+  };
+
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
         <Card sx={{width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
@@ -168,7 +176,25 @@ export const Upload = () => {
               </Enterdata>
               <Enterdata>
                 <UploadImageBl>
-                  <Button color="secondary" type="submit" variant="contained" startIcon={<DriveFolderUploadIcon />}>Upload</Button>
+                  <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="contained-button-file">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    component="span"
+                    startIcon={<DriveFolderUploadIcon />}
+                  >
+                  Upload
+                  </Button>
+                  </label>
+                  {file && <p>{file.name}</p>}
+                  {/* <Button color="secondary" type="submit" variant="contained" startIcon={<DriveFolderUploadIcon />}>Upload</Button> */}
                   {/* when file has been chosen, give a small preview of the image and a confirm upload button
                       once confirm button has been clicked, area reverts back to original state */}
                 </UploadImageBl>
