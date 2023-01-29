@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react'
 import { styled, Card, Dialog, DialogTitle, DialogActions, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
 
@@ -38,6 +39,16 @@ const Item = styled(Paper)({
   padding: 15,
   width: 315,
   height: 510,
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'left',
+});
+
+const UploadImageBl = styled(Paper)({
+  backgroundColor: '#1A2027',
+  padding: 15,
+  width: 500,
+  minHeight: 70,
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'left',
@@ -114,7 +125,6 @@ export const Upload = () => {
     setShowTextFields(!showTextFields);
   }
 
-
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
         <Card sx={{width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
@@ -155,6 +165,13 @@ export const Upload = () => {
                   autoComplete="quantity"
                 />
                 <Button color="secondary" type="submit" variant="contained">Submit</Button>
+              </Enterdata>
+              <Enterdata>
+                <UploadImageBl>
+                  <Button color="secondary" type="submit" variant="contained" startIcon={<DriveFolderUploadIcon />}>Upload</Button>
+                  {/* when file has been chosen, give a small preview of the image and a confirm upload button
+                      once confirm button has been clicked, area reverts back to original state */}
+                </UploadImageBl>
               </Enterdata>
               <Divider sx={{paddingBottom: 2}} />
               <Box sx={{ flexGrow: 1, paddingTop: 2}}>
