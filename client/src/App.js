@@ -3,10 +3,8 @@ import { Route } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Home } from './components/home';
 import Navbar from './components/navbar';
-import { Signup } from './components/signup';
 import { Upload } from './components/upload';
 import { Profile } from './components/profile';
-import { Signin } from './components/signin';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -47,8 +45,6 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/upload' element={<Upload />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/signin' element={<Signin />} />
         </Routes>
       </Router>
 
