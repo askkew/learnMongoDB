@@ -15,10 +15,10 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#f44336',
+      main: 'rgb(174, 216, 234)',
     },
     secondary: {
-      main: '#00e676',
+      main: 'rgb(27, 183, 110)',
     },
   }
 })
@@ -27,10 +27,10 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#f44336',
+      main: 'rgb(174, 216, 234)',
     },
     secondary: {
-      main: '#00e676',
+      main: 'rgb(27, 183, 110)',
     },
   }
 })

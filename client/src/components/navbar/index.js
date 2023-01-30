@@ -6,6 +6,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import KeyIcon from '@mui/icons-material/Key';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+
 
 const Signinbox = styled(Box)({
   display: 'flex',
@@ -20,8 +22,18 @@ const Accountmanager = styled(Box)({
 })
 
 const Navbar = () => {
+  const [uploadOpen, setUploadOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [createAccountOpen, setCreateAccountOpen] = React.useState(false);
+  const [file, setFile] = React.useState(null);
+
+  const handleUploadOpen = () => {
+    setUploadOpen(true);
+  };
+
+  const handleUploadClose = () => {
+    setUploadOpen(false);
+  };
 
   const handleClickOpen = () => {
     setLoginOpen(true);
@@ -39,6 +51,14 @@ const Navbar = () => {
     setCreateAccountOpen(false);
   };
 
+  const handleChange = (event) => {
+    if (event.target.files[0].type.startsWith('image/')) {
+      setFile(event.target.files[0]);
+    } else {
+      alert('Invalid file type. Please select a photo.');
+    }
+  };
+
   return (
     <>
       <Nav>
@@ -48,7 +68,42 @@ const Navbar = () => {
         </NavLink>
         <Bars />
         <NavBtn>
-          <NavBtnLink style={{backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center'}}> <AddToPhotosIcon />Upload</NavBtnLink>
+          <Button onClick={handleUploadOpen} style={{backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center'}}> <AddToPhotosIcon />Upload</Button>
+          <Dialog
+            open={uploadOpen}
+            onClose={handleUploadClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Choose any image to upload"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Must be a JPEG, PNG, or GIF file
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={handleChange}
+              />
+              <label htmlFor="contained-button-file">
+              <Button
+                variant="contained"
+                color="secondary"
+                component="span"
+                startIcon={<DriveFolderUploadIcon />}
+              >
+              Upload
+              </Button>
+              </label>
+              {file && <p>{file.name}</p>}
+            </DialogActions>
+          </Dialog>
         </NavBtn>
         <Accountmanager>
           <NavBtn>

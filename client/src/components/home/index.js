@@ -245,8 +245,8 @@ export const Home = () => {
                               </UpdateData>
                           )}
                         <DeleteButton
-                        onClick = {(() => handleDelete(product._id))} 
-                        color="primary"
+                        onClick = {(() => handleDelete(product._id))}
+                        sx={{backgroundColor: "#D83737"}}
                         variant="contained"
                         type="submit"
                         startIcon={<DeleteIcon />}
