@@ -7,6 +7,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 
 const Signinbox = styled(Box)({
@@ -18,6 +19,12 @@ const Signinbox = styled(Box)({
 const Accountmanager = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
+  justifyContent: 'center',
+})
+
+const Imagepreview = styled(DialogActions)({
+  display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
 })
 
@@ -76,40 +83,50 @@ const Navbar = () => {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"Choose any image to upload"}
+              {"Choose an image to upload"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 Must be a JPEG, PNG, or GIF file
               </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <Imagepreview sx={{}}>
               <input
                 accept="image/*"
                 id="contained-button-file"
                 multiple
                 type="file"
-                onChange={handleChange}
               />
               <label htmlFor="contained-button-file">
-              <Button
+                <Button
+                sx={{marginBottom: 2, backgroundColor: "rgb(174, 216, 234)"}}
                 variant="contained"
-                color="secondary"
                 component="span"
                 startIcon={<DriveFolderUploadIcon />}
-              >
-              Upload
-              </Button>
+                onChange={handleChange}
+                >
+                  Choose file
+                </Button>
               </label>
               {file && <p>{file.name}</p>}
-            </DialogActions>
+              <Card sx={{width: 480, height: 320, backgroundColor: "#1A2027"}}>
+
+              </Card>
+              <Button
+              sx={{marginTop: 2}}
+              variant="contained"
+              color="secondary"
+              component="span"
+              startIcon={<FileUploadIcon />}
+              >
+                Upload
+              </Button>
+            </Imagepreview>
           </Dialog>
         </NavBtn>
         <Accountmanager>
           <NavBtn>
-            <Button style={{backgroundColor: "rgb(27, 183, 110)", color: "white"}} variant="outlined" onClick={handleClickOpen}>
-              Sign-in
-            </Button>
+            <Button onClick={handleClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}>Sign in</Button>
             <Dialog
               open={loginOpen}
               onClose={handleClose}
@@ -157,9 +174,7 @@ const Navbar = () => {
             </Dialog>
           </NavBtn>
           <NavBtn>
-            <Button style={{backgroundColor: "rgb(27, 183, 110)", color: "white"}} variant="outlined" onClick={handleCreateClickOpen}>
-              Sign-up
-            </Button>
+            <Button onClick={handleCreateClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}>Sign up</Button>
             <Dialog
               open={createAccountOpen}
               onClose={handleCreateClose}
