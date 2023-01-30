@@ -16,6 +16,10 @@ const detailSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    img: {
+        data: Buffer,
+        contentType: 'image/png'
+    }
 });
 
 const DetailModel = mongoose.model('Detail', detailSchema)

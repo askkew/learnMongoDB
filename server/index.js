@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
+const multer = require('multer');
 const DetailModel = require("./models/details.js");
 const detailModel = require("./models/details.js");
 
@@ -24,6 +25,28 @@ mongoose
 
 app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+app.post("/imageupload", upload.single("file"), (req, res) => {
+    const detailModel = new DetailModel({
+        name: req.body.name,
+        description: req.body.description,
+        quantity: req.body.quantity,
+        file: req.file.buffer
+    });
+    
+    detailModel.save((err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            console.log(data);
+            res.status(200).send({ "MSG": "File and details inserted to DB" });
+        }
+    });
 });
 
 app.post('/insert', (req, res) => {

@@ -66,6 +66,23 @@ const Navbar = () => {
     }
   };
 
+  const handleImageUpload = (event) => {
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    axios
+      .post("http://localhost:5000/imageupload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <Nav>
