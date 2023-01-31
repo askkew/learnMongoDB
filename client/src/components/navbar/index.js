@@ -131,6 +131,7 @@ const Navbar = () => {
               </Card>
               <Button
               sx={{marginTop: 2}}
+              onClick={handleImageUpload}
               variant="contained"
               color="secondary"
               component="span"

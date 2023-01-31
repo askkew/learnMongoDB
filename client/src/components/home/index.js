@@ -57,7 +57,7 @@ export const Home = () => {
 
   const [showTextFields, setShowTextFields] = useState(false);
   const [products, setProducts] = useState("");
-  const [file, setFile] = useState(null);
+  //const [file, setFile] = useState(null);
 
   const fetchData = async () => {
     const data = await axios.get("http://localhost:5000/read")
@@ -123,13 +123,13 @@ export const Home = () => {
     setShowTextFields(!showTextFields);
   }
 
-  const handleChange = (event) => {
-    if (event.target.files[0].type.startsWith('image/')) {
-      setFile(event.target.files[0]);
-    } else {
-      alert('Invalid file type. Please select a photo.');
-    }
-  };
+  // const handleChange = (event) => {
+  //   if (event.target.files[0].type.startsWith('image/')) {
+  //     setFile(event.target.files[0]);
+  //   } else {
+  //     alert('Invalid file type. Please select a photo.');
+  //   }
+  // };
 
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
