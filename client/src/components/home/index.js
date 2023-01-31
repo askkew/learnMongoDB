@@ -1,11 +1,54 @@
 import React, { useEffect, useState} from 'react'
-import { styled, Card, Dialog, DialogTitle, DialogActions, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { styled, Card, CardMedia, Dialog, DialogTitle, DialogActions, Input, InputLabel, FormHelperText, CardActions, CardContent, Button, Typography, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarIcon from '@mui/icons-material/Star';import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
 import Imagecard from '../imagecard';
 
+const Imagecardcomponent = styled(Card)({
+  marginTop: '10px',
+  width: 300,
+  minHeight: 300,
+  boxShadow: "0 0 5px black",
+  backgroundColor: "rgb(71,74,81)",
+  textAlign: "center",
+  position: "relative",
+})
+
+const Imageinfoarea = styled(CardContent)({
+  height: 67.43,
+  padding: "10px 15px 25px 25px",
+  display: "flex",
+  flexDirection: "column",
+  position: "absolute",
+  bottom: "0px",
+  width: "100%",
+  marginBottom: "10px",
+})
+
+const Imagetitlearea = styled(Box)({
+  display: "flex",
+  justifyContent: "left",
+  flexDirection: "row",
+})
+
+const Likeandsavebox = styled(Box)({
+  display: "flex",
+  justifyContent: "space-around",
+  flexDirection: "row",
+  padding: 0,
+})
+
+const Interactbutton = styled(Button)({
+  color: "rgb(141,145,154)",
+  "&:hover": {
+      transition: "all 0.2s ease-in-out",
+      color: "#fff",
+      background: "transparent",
+  }
+});
 
 const Enterdata = styled(Box)({
   display: 'flex',
@@ -13,57 +56,53 @@ const Enterdata = styled(Box)({
   flexDirection: 'row',
 })
 
-const UpdateData = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-})
+// const UpdateData = styled(Box)({
+//   display: 'flex',
+//   justifyContent: 'center',
+//   flexDirection: 'column',
+// })
 
-const Datafield = styled(Typography)({
-})
+// const Datafield = styled(Typography)({
+// })
 
-const DeleteButton = styled(Button)({
-  width: "100px",
-})
+// const DeleteButton = styled(Button)({
+//   width: "100px",
+// })
 
-const UpdateItem = styled(Button)({
-  width: "100px",
-})
+// const UpdateItem = styled(Button)({
+//   width: "100px",
+// })
 
-const Datalabel = styled(Typography)({
-  fontSize: 13,
-  color: "grey",
-})
+// const Datalabel = styled(Typography)({
+//   fontSize: 13,
+//   color: "grey",
+// })
 
-const Item = styled(Paper)({
-  backgroundColor: '#1A2027',
-  padding: 15,
-  width: 315,
-  height: 510,
-  display: 'flex',
-  flexDirection: 'column',
-  textAlign: 'left',
-});
+// const Item = styled(Paper)({
+//   display: 'flex',
+//   flexDirection: 'column',
+//   textAlign: 'left',
+// });
 
-const UploadImageBl = styled(Paper)({
-  backgroundColor: '#1A2027',
-  padding: 15,
-  width: 500,
-  minHeight: 70,
-  display: 'flex',
-  flexDirection: 'column',
-  textAlign: 'left',
-});
+// const UploadImageBl = styled(Paper)({
+//   backgroundColor: '#1A2027',
+//   padding: 15,
+//   width: 500,
+//   minHeight: 70,
+//   display: 'flex',
+//   flexDirection: 'column',
+//   textAlign: 'left',
+// });
 
 export const Home = () => {
 
-  const [showTextFields, setShowTextFields] = useState(false);
-  const [products, setProducts] = useState("");
-  //const [file, setFile] = useState(null);
+  // const [showTextFields, setShowTextFields] = useState(false);
+  // const [products, setProducts] = useState("");
+  const [images, setImages] = useState("");
 
   const fetchData = async () => {
-    const data = await axios.get("http://localhost:5000/read")
-    setProducts(data);
+    const data = await axios.get("http://localhost:5000/imageread")
+    setImages(data);
     console.log(data);
   }
 
@@ -71,59 +110,75 @@ export const Home = () => {
     fetchData()
   }, [])
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const DBinfo = new FormData(event.currentTarget);
-    const frontData = {
-      name: DBinfo.get("name"),
-      description: DBinfo.get("description"),
-      quantity: DBinfo.get("quantity")
-    }
-    axios.post('http://localhost:5000/insert', frontData)
-      .then(response => {
-        if (response.statusText === 'OK'){
-          fetchData();
-        }
-      })
-      .catch(error => console.log(error));
-    console.log(frontData);
-  };
+  const binaryData = images.data;
+  // create a Blob from the binary data
+  const blob = new Blob([binaryData], { type: 'image/jpeg' });
+  // create an object URL from the Blob
+  const imageUrl = URL.createObjectURL(blob);
 
-  const handleDelete = (ID) => {
-    const objectID = {ID: ID}
-    axios.post('http://localhost:5000/delete', objectID)
-      .then(response => {
-        if (response.statusText === 'OK'){
-          fetchData();
-        }
-      })
-      .catch(error => console.log(error));
-  }
+  // const fetchData = async () => {
+  //   const data = await axios.get("http://localhost:5000/read")
+  //   setProducts(data);
+  //   console.log(data);
+  // }
 
-  const handleUpdate = (event, _id) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updateFrontData = {
-        $set: {
-            name: formData.get("nameupdated"),
-            description: formData.get("descriptionupdated"),
-            quantity: formData.get("quantityupdated")
-        }
-    }
-    axios.put(`http://localhost:5000/update?id=${_id}`, updateFrontData)
-        .then(response => {
-          if (response.statusText === 'OK'){
-            fetchData();
-          }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-  }
+  // useEffect(() => {
+  //   fetchData()
+  // }, [])
 
-  const handleShowTextFields = () => {
-    setShowTextFields(!showTextFields);
-  }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const DBinfo = new FormData(event.currentTarget);
+  //   const frontData = {
+  //     name: DBinfo.get("name"),
+  //     description: DBinfo.get("description"),
+  //     quantity: DBinfo.get("quantity")
+  //   }
+  //   axios.post('http://localhost:5000/insert', frontData)
+  //     .then(response => {
+  //       if (response.statusText === 'OK'){
+  //         fetchData();
+  //       }
+  //     })
+  //     .catch(error => console.log(error));
+  //   console.log(frontData);
+  // };
+
+  // const handleDelete = (ID) => {
+  //   const objectID = {ID: ID}
+  //   axios.post('http://localhost:5000/delete', objectID)
+  //     .then(response => {
+  //       if (response.statusText === 'OK'){
+  //         fetchData();
+  //       }
+  //     })
+  //     .catch(error => console.log(error));
+  // }
+
+  // const handleUpdate = (event, _id) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   const updateFrontData = {
+  //       $set: {
+  //           name: formData.get("nameupdated"),
+  //           description: formData.get("descriptionupdated"),
+  //           quantity: formData.get("quantityupdated")
+  //       }
+  //   }
+  //   axios.put(`http://localhost:5000/update?id=${_id}`, updateFrontData)
+  //       .then(response => {
+  //         if (response.statusText === 'OK'){
+  //           fetchData();
+  //         }
+  //       })
+  //       .catch(error => {
+  //           console.error(error);
+  //       });
+  // }
+
+  // const handleShowTextFields = () => {
+  //   setShowTextFields(!showTextFields);
+  // }
 
   // const handleChange = (event) => {
   //   if (event.target.files[0].type.startsWith('image/')) {
@@ -137,7 +192,7 @@ export const Home = () => {
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
         <Card sx={{backgroundColor: "rgb(46,48,53)", width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
             <CardContent>
-              <Enterdata
+              {/* <Enterdata
               component="form"
               onSubmit={handleSubmit}
               noValidate
@@ -173,10 +228,33 @@ export const Home = () => {
                   autoComplete="quantity"
                 />
                 <Button color="secondary" type="submit" variant="contained">Submit</Button>
-              </Enterdata>
-              <Divider sx={{paddingBottom: 2}} />
-              <Imagecard />
+              </Enterdata> */}
+              {/* <Divider sx={{paddingBottom: 2}} /> */}
               <Box sx={{ flexGrow: 1, paddingTop: 2}}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {
+                  images && images?.data.map((image) => (
+                    <Grid item xs={2} sm={4} md={4}>
+                      <Imagecardcomponent>
+                          <CardContent>
+                            <img src={imageUrl} alt="Binary Data Image" />
+                          </CardContent>
+                          <Imageinfoarea>
+                              <Imagetitlearea>
+                                  <strong>{image._id}</strong>
+                              </Imagetitlearea>
+                              <Likeandsavebox>
+                                  <Interactbutton startIcon={<FavoriteIcon />}>25</Interactbutton>
+                                  <Interactbutton startIcon={<StarIcon />}>25</Interactbutton>
+                              </Likeandsavebox>
+                          </Imageinfoarea>
+                      </Imagecardcomponent>
+                    </Grid>
+                  ))
+                }
+                </Grid>
+              </Box>
+              {/* <Box sx={{ flexGrow: 1, paddingTop: 2}}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {
                   products && products?.data.map((product) => (
@@ -239,7 +317,7 @@ export const Home = () => {
                   ))
                 }
                 </Grid>
-              </Box>
+              </Box> */}
 
             </CardContent>
         </Card>

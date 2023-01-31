@@ -32,8 +32,6 @@ const Navbar = () => {
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [createAccountOpen, setCreateAccountOpen] = React.useState(false);
-  const [message, setMessage] = useState("");
-  const [file, setFile] = React.useState(null);
 
   const handleUploadOpen = () => {
     setUploadOpen(true);
