@@ -32,6 +32,7 @@ const Navbar = () => {
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [createAccountOpen, setCreateAccountOpen] = React.useState(false);
+  const [message, setMessage] = useState("");
   const [file, setFile] = React.useState(null);
 
   const handleUploadOpen = () => {
@@ -58,41 +59,41 @@ const Navbar = () => {
     setCreateAccountOpen(false);
   };
 
-  const handleChange = (event) => {
-    if (event.target.files[0].type.startsWith('image/')) {
-      setFile(event.target.files[0]);
-    } else {
-      alert('Invalid file type. Please select a photo.');
-    }
-  };
+  // const handleChange = (event) => {
+  //   if (event.target.files[0].type.startsWith('image/')) {
+  //     setFile(event.target.files[0]);
+  //   } else {
+  //     alert('Invalid file type. Please select a photo.');
+  //   }
+  // };
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (e) => {
     const formData = new FormData();
-    formData.append("file", file, file.name);
-    axios
-      .post("http://localhost:5000/imageupload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+    formData.append("image", e.target.files[0]);
+
+    try {
+        const res = await axios.post("http://localhost:5000/imageupload", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        console.log(res);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 
   return (
     <>
       <Nav>
         <NavLink to='/'>
           <CameraAltIcon fontSize='large' style={{color:'rgb(27, 183, 110)'}} />
-          ImageShare
+          <strong>ImageShare</strong>
         </NavLink>
         <Bars />
         <NavBtn>
-          <Button onClick={handleUploadOpen} style={{backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center'}}> <AddToPhotosIcon />Upload</Button>
+          <Button onClick={handleUploadOpen} style={{backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center'}}> <AddToPhotosIcon /><strong>Upload</strong></Button>
           <Dialog
             open={uploadOpen}
             onClose={handleUploadClose}
@@ -107,8 +108,12 @@ const Navbar = () => {
                 Must be a JPEG, PNG, or GIF file
               </DialogContentText>
             </DialogContent>
-            <Imagepreview sx={{}}>
-              <input
+            <Imagepreview>
+            <div>
+              <input type="file" onChange={handleImageUpload} />
+              <button type="submit">Submit</button>
+            </div>
+              {/* <input
                 accept="image/*"
                 id="contained-button-file"
                 multiple
@@ -131,20 +136,20 @@ const Navbar = () => {
               </Card>
               <Button
               sx={{marginTop: 2}}
-              onClick={handleImageUpload}
+              // onClick={handleImageUpload}
               variant="contained"
               color="secondary"
               component="span"
               startIcon={<FileUploadIcon />}
               >
                 Upload
-              </Button>
+              </Button> */}
             </Imagepreview>
           </Dialog>
         </NavBtn>
         <Accountmanager>
           <NavBtn>
-            <Button onClick={handleClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}>Sign in</Button>
+            <Button onClick={handleClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}><strong>Sign in</strong></Button>
             <Dialog
               open={loginOpen}
               onClose={handleClose}
@@ -192,7 +197,7 @@ const Navbar = () => {
             </Dialog>
           </NavBtn>
           <NavBtn>
-            <Button onClick={handleCreateClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}>Sign up</Button>
+            <Button onClick={handleCreateClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}><strong>Sign up</strong></Button>
             <Dialog
               open={createAccountOpen}
               onClose={handleCreateClose}

@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const multer = require('multer');
 const DetailModel = require("./models/details.js");
-const detailModel = require("./models/details.js");
 const ImageModel = require("./models/image.js");
-const imageModel = require("./models/image.js");
 
 const app = express();
 
@@ -29,25 +27,31 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
 });
 
-// const storage = multer.memoryStorage();
-// const imageupload = multer({ storage });
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-// app.post("/imageupload", imageupload.single("file"), (req, res) => {
-//     const imageModel = new ImageModel({
-//         name: req.body.name,
-//         file: req.file.buffer
-//     });
-    
-//     imageModel.save((err, data) => {
-//         if (err) {
-//             console.log(err);
-//             res.status(500).send(err);
-//         } else {
-//             console.log(data);
-//             res.status(200).send({ "MSG": "File and details inserted to DB" });
-//         }
-//     });
-// });
+app.post("/imageupload", upload.single("image"), async (req, res) => {
+    const image = new ImageModel({
+        image: req.file.buffer,
+        contentType: req.file.mimetype
+    });
+    try {
+        await image.save();
+        res.status(200).send({ message: "Image uploaded successfully" });
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+
+app.get('/imageread', (req, res) => {
+    ImageModel.find((err, data) => {
+        if(err) {
+            return res.status(500).send(err)
+        }else{
+            return res.status(200).send(data)
+        }
+    })
+})
 
 app.post('/insert', (req, res) => {
     var detailModel = new DetailModel()         //create new model for new data entry

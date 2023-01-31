@@ -4,6 +4,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import axios from 'axios';
+import Imagecard from '../imagecard';
+
 
 const Enterdata = styled(Box)({
   display: 'flex',
@@ -133,7 +135,7 @@ export const Home = () => {
 
   return (
     <Grid container justifyContent="center" sx={{paddingTop: 2}}>
-        <Card sx={{width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
+        <Card sx={{backgroundColor: "rgb(46,48,53)", width: 1000, display: 'flex', justifyContent: 'center', paddingBottom: 2}}>
             <CardContent>
               <Enterdata
               component="form"
@@ -172,29 +174,8 @@ export const Home = () => {
                 />
                 <Button color="secondary" type="submit" variant="contained">Submit</Button>
               </Enterdata>
-              {/* <Enterdata>
-                <UploadImageBl>
-                  <input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="contained-button-file">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    component="span"
-                    startIcon={<DriveFolderUploadIcon />}
-                  >
-                  Upload
-                  </Button>
-                  </label>
-                  {file && <p>{file.name}</p>}
-                {/* </UploadImageBl>
-              </Enterdata> */}
               <Divider sx={{paddingBottom: 2}} />
+              <Imagecard />
               <Box sx={{ flexGrow: 1, paddingTop: 2}}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {
