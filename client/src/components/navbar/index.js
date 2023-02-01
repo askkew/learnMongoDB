@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState, useRef} from 'react'
 import axios from 'axios';
 import { Bars, Nav, NavBtn, NavBtnLink, NavLink, NavMenu } from './Navbarelements';
 import { Typography, IconButton, styled, Card, Dialog, DialogActions, DialogContentText, DialogContent, DialogTitle, Input, InputLabel, InputAdornment, FormHelperText, CardActions, CardContent, Button, Box, Grid, TextField, Divider, FormControl, FormActions, Stack, Table, TableBody, TableCell, Paper } from '@mui/material';
@@ -28,10 +28,34 @@ const Imagepreview = styled(DialogActions)({
   justifyContent: 'center',
 })
 
+const Choosefilebutton = styled(Button)({
+  marginBottom: '10px',
+  color: "#fff",
+  "&:hover": {
+      transition: "all 0.2s ease-in-out",
+      color: "rgb(141,145,154)",
+      background: "transparent",
+  }
+});
+
+const Submitfilebutton = styled(Button)({
+  marginBottom: '10px',
+  backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center',
+  color: "white",
+  "&:hover": {
+      transition: "all 0.2s ease-in-out",
+      color: "rgb(27, 183, 110)",
+      background: "transparent",
+  }
+});
+
 const Navbar = () => {
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [createAccountOpen, setCreateAccountOpen] = React.useState(false);
+  const fileInput = useRef(null);
+  const [fileName, setFileName] = React.useState("");
+  const [uploadStatus, setUploadStatus] = React.useState("");
 
   const handleUploadOpen = () => {
     setUploadOpen(true);
@@ -57,14 +81,6 @@ const Navbar = () => {
     setCreateAccountOpen(false);
   };
 
-  // const handleChange = (event) => {
-  //   if (event.target.files[0].type.startsWith('image/')) {
-  //     setFile(event.target.files[0]);
-  //   } else {
-  //     alert('Invalid file type. Please select a photo.');
-  //   }
-  // };
-
   const handleImageUpload = async (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
@@ -76,11 +92,17 @@ const Navbar = () => {
             }
         });
         console.log(res);
+        setUploadStatus("File uploaded successfully");
     } catch (err) {
         console.error(err);
+        setUploadStatus("File upload failed");
     }
-};
+    setFileName(fileInput.current.files[0].name);
+  };
 
+  const handleChooseFile = () => {
+    fileInput.current.click();
+  };
 
   return (
     <>
@@ -107,41 +129,16 @@ const Navbar = () => {
               </DialogContentText>
             </DialogContent>
             <Imagepreview>
-            <div>
-              <input type="file" onChange={handleImageUpload} />
-              <button type="submit">Submit</button>
-            </div>
-              {/* <input
-                accept="image/*"
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
-              <label htmlFor="contained-button-file">
-                <Button
-                sx={{marginBottom: 2, backgroundColor: "rgb(174, 216, 234)"}}
-                variant="contained"
-                component="span"
-                startIcon={<DriveFolderUploadIcon />}
-                onChange={handleChange}
-                >
-                  Choose file
-                </Button>
-              </label>
-              {file && <p>{file.name}</p>}
-              <Card sx={{width: 480, height: 320, backgroundColor: "#1A2027"}}>
-
-              </Card>
-              <Button
-              sx={{marginTop: 2}}
-              // onClick={handleImageUpload}
-              variant="contained"
-              color="secondary"
-              component="span"
-              startIcon={<FileUploadIcon />}
-              >
+              <Choosefilebutton startIcon={<FileUploadIcon />} onClick={handleChooseFile}>
+                Choose Photo
+              </Choosefilebutton>
+              <Submitfilebutton startIcon={<DriveFolderUploadIcon />} onClick={handleImageUpload}>
                 Upload
-              </Button> */}
+              </Submitfilebutton>
+              <input type="file" ref={fileInput} onChange={handleImageUpload} style={{ display: "none" }}/>
+              {fileName && <div><strong>Selected file: {fileName}</strong></div>}
+              <button type="submit" style={{ display: "none" }}>Submit</button>
+              {uploadStatus && <div><strong>{uploadStatus}</strong></div>}
             </Imagepreview>
           </Dialog>
         </NavBtn>
@@ -266,3 +263,36 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+{/* <input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                sx={{marginBottom: 2, backgroundColor: "rgb(174, 216, 234)"}}
+                variant="contained"
+                component="span"
+                startIcon={<DriveFolderUploadIcon />}
+                onChange={handleChange}
+                >
+                  Choose file
+                </Button>
+              </label>
+              {file && <p>{file.name}</p>}
+              <Card sx={{width: 480, height: 320, backgroundColor: "#1A2027"}}>
+
+              </Card>
+              <Button
+              sx={{marginTop: 2}}
+              // onClick={handleImageUpload}
+              variant="contained"
+              color="secondary"
+              component="span"
+              startIcon={<FileUploadIcon />}
+              >
+                Upload
+              </Button> */}
