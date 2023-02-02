@@ -14,6 +14,12 @@ const Signinbox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
+  margin: 35,
+})
+
+const Alerttext = styled(Typography)({
+  color: "rgb(27, 183, 110)",
+  marginBottom: "25px",
 })
 
 const Accountmanager = styled(Box)({
@@ -29,7 +35,8 @@ const Imagepreview = styled(DialogActions)({
 })
 
 const Choosefilebutton = styled(Button)({
-  marginBottom: '10px',
+  marginBottom: '0px',
+  marginTop: '45px',
   color: "#fff",
   "&:hover": {
       transition: "all 0.2s ease-in-out",
@@ -40,6 +47,7 @@ const Choosefilebutton = styled(Button)({
 
 const Submitfilebutton = styled(Button)({
   marginBottom: '10px',
+  marginTop: '10px',
   backgroundColor: "rgb(27, 183, 110)", width: '150px', display: 'flex', justifyContent: 'center',
   color: "white",
   "&:hover": {
@@ -49,6 +57,16 @@ const Submitfilebutton = styled(Button)({
   }
 });
 
+// rgb(23,25,31)
+
+const Imagepreviewcard = styled(Card)({
+  width: '550px',
+  height: '350px',
+  margin: '50px',
+  boxShadow: "0 0 5px black",
+  backgroundColor: "rgb(60,66,75)",
+})
+
 const Navbar = () => {
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -56,6 +74,7 @@ const Navbar = () => {
   const fileInput = useRef(null);
   const [fileName, setFileName] = React.useState("");
   const [uploadStatus, setUploadStatus] = React.useState("");
+  const [image, setImage] = useState(null);
 
   const handleUploadOpen = () => {
     setUploadOpen(true);
@@ -81,9 +100,20 @@ const Navbar = () => {
     setCreateAccountOpen(false);
   };
 
+  useEffect(() => {
+    fileInput.current = document.querySelector("input[type='file']");
+  }, []);
+  
+  const handleStageImage = (event) => {
+    setImage(event.target.files[0])
+    setFileName(fileInput.current.files[0].name);
+    console.log(image);
+  }
+
   const handleImageUpload = async (e) => {
+    // console.log(image);
     const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    formData.append("image", image);
 
     try {
         const res = await axios.post("http://localhost:5000/imageupload", formData, {
@@ -120,25 +150,19 @@ const Navbar = () => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              {"Choose an image to upload"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Must be a JPEG, PNG, or GIF file
-              </DialogContentText>
-            </DialogContent>
             <Imagepreview>
               <Choosefilebutton startIcon={<FileUploadIcon />} onClick={handleChooseFile}>
                 Choose Photo
               </Choosefilebutton>
+              <Imagepreviewcard>
+                {fileName && <div><strong>Selected file: {fileName}</strong></div>}
+              </Imagepreviewcard>
               <Submitfilebutton startIcon={<DriveFolderUploadIcon />} onClick={handleImageUpload}>
                 Upload
               </Submitfilebutton>
-              <input type="file" ref={fileInput} onChange={handleImageUpload} style={{ display: "none" }}/>
-              {fileName && <div><strong>Selected file: {fileName}</strong></div>}
-              <button type="submit" style={{ display: "none" }}>Submit</button>
-              {uploadStatus && <div><strong>{uploadStatus}</strong></div>}
+              <input type="file" ref={fileInput} onChange={handleStageImage} style={{ display: "none" }}/>
+              <button type="submit" onClick={handleImageUpload} style={{ display: "none" }}>Submit</button>
+              {uploadStatus && <Alerttext><strong>{uploadStatus}</strong></Alerttext>}
             </Imagepreview>
           </Dialog>
         </NavBtn>
@@ -150,10 +174,11 @@ const Navbar = () => {
               onClose={handleClose}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
+              PaperProps={{
+                style: { borderRadius: 15 }
+              }}
             >
-              <DialogTitle id="alert-dialog-title">
-                {"Login?"}
-              </DialogTitle>
+              
               <DialogActions>
               <Signinbox>
                 <TextField
@@ -186,7 +211,7 @@ const Navbar = () => {
                   }}
                 />
                 <Button size="large" variant="contained" sx={{marginTop: 2, backgroundColor: "rgb(27, 183, 110)"}}>Login</Button>
-                <Button size="large" href="/signup" sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign up/Create an account</Button>
+                <Button size="large" onClick={handleCreateClickOpen} sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign up/Create an account</Button>
               </Signinbox>
               </DialogActions>
             </Dialog>
@@ -198,10 +223,11 @@ const Navbar = () => {
               onClose={handleCreateClose}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
+              PaperProps={{
+                style: { borderRadius: 15 }
+              }}
             >
-              <DialogTitle id="alert-dialog-title">
-                {"Create Accont?"}
-              </DialogTitle>
+              
               <DialogActions>
               <Signinbox>
                 <TextField
@@ -249,8 +275,8 @@ const Navbar = () => {
                   ),
                 }}
               />
-              <Button size="large" variant="contained" sx={{marginTop: 2, backgroundColor: "rgb(27, 183, 110)"}}>Login</Button>
-              <Button size="large" href="/signup" sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign up/Create an account</Button>
+              <Button size="large" variant="contained" sx={{marginTop: 2, backgroundColor: "rgb(27, 183, 110)"}}>Create account</Button>
+              <Button size="large" onClick={handleClickOpen} sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign in</Button>
               </Signinbox>
               </DialogActions>
             </Dialog>
@@ -263,6 +289,11 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+            // <Imagepreview>
+
+            // </Imagepreview>
 
 
 {/* <input
@@ -296,3 +327,35 @@ export default Navbar;
               >
                 Upload
               </Button> */}
+              {/* <button onClick={handleChooseFile}>Choose Photo</button>
+              <button onClick={handleImageUpload}>Upload</button>
+              <input type="file" ref={fileInput} style={{ display: "none" }}/>
+              {fileName && <div><strong>Selected file: {fileName}</strong></div>}
+              {uploadStatus && <div><strong>{uploadStatus}</strong></div>} */}
+            {/* <form
+              onClick={() => document.querySelector(".input-field").click()}
+              >
+                <input type="file" accept='image/*' className='input-field' hidden 
+                onChange={({ target: {files}}) => {
+                  files[0] && setFileName(files[0].name)
+                  if(files){
+                    setImage(URL.createObjectURL(files[0]))
+                  }
+                }}
+                />
+
+                {image ?
+                <div>
+                  <img src={image} width={450} height={250} alt={fileName} />
+                  <Submitfilebutton startIcon={<DriveFolderUploadIcon />} onClick={handleImageUpload}>
+                  Upload
+                  </Submitfilebutton>
+                </div>
+                : 
+                <>
+                <DriveFolderUploadIcon color='#1475cf' size={60} />
+                <p>Browse Files to upload</p>
+                </>
+              }
+
+              </form> */}
