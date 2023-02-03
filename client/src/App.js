@@ -5,6 +5,8 @@ import { Home } from './components/home';
 import Navbar from './components/navbar';
 import { Upload } from './components/upload';
 import { Profile } from './components/profile';
+import Signin from './components/signin';
+import Signup from './components/signup';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -45,6 +47,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/upload' element={<Upload />} />
+          <Route path='/signin' element={<Signin />} />
+          <Route path='/signup' element={<Signup />} />
         </Routes>
       </Router>
 

@@ -15,6 +15,7 @@ const Signinbox = styled(Box)({
   flexDirection: 'column',
   justifyContent: 'center',
   margin: 35,
+  backgroundColor: "rgb(44,47,52)",
 })
 
 const Alerttext = styled(Typography)({
@@ -168,118 +169,10 @@ const Navbar = () => {
         </NavBtn>
         <Accountmanager>
           <NavBtn>
-            <Button onClick={handleClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}><strong>Sign in</strong></Button>
-            <Dialog
-              open={loginOpen}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-              PaperProps={{
-                style: { borderRadius: 15 }
-              }}
-            >
-              
-              <DialogActions>
-              <Signinbox>
-                <TextField
-                  size="large"
-                  id="input-with-icon-textfield"
-                  variant="standard"
-                  label="Username"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <TextField
-                  size="large"
-                  id="filled-password-input"
-                  label="Password"
-                  type="password"
-                  autoComplete="current-password"
-                  variant="standard"
-                  sx={{marginTop: 2}}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <KeyIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button size="large" variant="contained" sx={{marginTop: 2, backgroundColor: "rgb(27, 183, 110)"}}>Login</Button>
-                <Button size="large" onClick={handleCreateClickOpen} sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign up/Create an account</Button>
-              </Signinbox>
-              </DialogActions>
-            </Dialog>
+            <NavBtnLink style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}} to='/signin'>Sign In</NavBtnLink>
           </NavBtn>
           <NavBtn>
-            <Button onClick={handleCreateClickOpen} style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}}><strong>Sign up</strong></Button>
-            <Dialog
-              open={createAccountOpen}
-              onClose={handleCreateClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-              PaperProps={{
-                style: { borderRadius: 15 }
-              }}
-            >
-              
-              <DialogActions>
-              <Signinbox>
-                <TextField
-                  size="large"
-                  id="input-with-icon-textfield"
-                  variant="standard"
-                  label="Username"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <TextField
-                  size="large"
-                  id="filled-password-input"
-                  label="Password"
-                  type="password"
-                  autoComplete="current-password"
-                  variant="standard"
-                  sx={{marginTop: 2}}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <KeyIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <TextField
-                size="large"
-                id="filled-password-input"
-                label="Confirm Password"
-                type="password"
-                autoComplete="current-password"
-                variant="standard"
-                sx={{marginTop: 2}}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <KeyIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button size="large" variant="contained" sx={{marginTop: 2, backgroundColor: "rgb(27, 183, 110)"}}>Create account</Button>
-              <Button size="large" onClick={handleClickOpen} sx={{marginTop: 2, color: "rgb(27, 183, 110)"}}>Sign in</Button>
-              </Signinbox>
-              </DialogActions>
-            </Dialog>
+            <NavBtnLink style={{backgroundColor: "rgb(27, 183, 110)", display: 'flex', justifyContent: 'center'}} to='/signup'>Sign Up</NavBtnLink>
           </NavBtn>
         </Accountmanager>
       </Nav>
@@ -289,73 +182,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-            // <Imagepreview>
-
-            // </Imagepreview>
-
-
-{/* <input
-                accept="image/*"
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
-              <label htmlFor="contained-button-file">
-                <Button
-                sx={{marginBottom: 2, backgroundColor: "rgb(174, 216, 234)"}}
-                variant="contained"
-                component="span"
-                startIcon={<DriveFolderUploadIcon />}
-                onChange={handleChange}
-                >
-                  Choose file
-                </Button>
-              </label>
-              {file && <p>{file.name}</p>}
-              <Card sx={{width: 480, height: 320, backgroundColor: "#1A2027"}}>
-
-              </Card>
-              <Button
-              sx={{marginTop: 2}}
-              // onClick={handleImageUpload}
-              variant="contained"
-              color="secondary"
-              component="span"
-              startIcon={<FileUploadIcon />}
-              >
-                Upload
-              </Button> */}
-              {/* <button onClick={handleChooseFile}>Choose Photo</button>
-              <button onClick={handleImageUpload}>Upload</button>
-              <input type="file" ref={fileInput} style={{ display: "none" }}/>
-              {fileName && <div><strong>Selected file: {fileName}</strong></div>}
-              {uploadStatus && <div><strong>{uploadStatus}</strong></div>} */}
-            {/* <form
-              onClick={() => document.querySelector(".input-field").click()}
-              >
-                <input type="file" accept='image/*' className='input-field' hidden 
-                onChange={({ target: {files}}) => {
-                  files[0] && setFileName(files[0].name)
-                  if(files){
-                    setImage(URL.createObjectURL(files[0]))
-                  }
-                }}
-                />
-
-                {image ?
-                <div>
-                  <img src={image} width={450} height={250} alt={fileName} />
-                  <Submitfilebutton startIcon={<DriveFolderUploadIcon />} onClick={handleImageUpload}>
-                  Upload
-                  </Submitfilebutton>
-                </div>
-                : 
-                <>
-                <DriveFolderUploadIcon color='#1475cf' size={60} />
-                <p>Browse Files to upload</p>
-                </>
-              }
-
-              </form> */}
