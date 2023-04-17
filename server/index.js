@@ -12,7 +12,6 @@ const PORT = 5000
 app.use(cors());
 app.use(express.json());
 
-const uri = "mongodb+srv://admin:bnr341999@cluster0.mvgqlfd.mongodb.net/practice?retryWrites=true&w=majority"
 
 mongoose
     .connect(uri)
